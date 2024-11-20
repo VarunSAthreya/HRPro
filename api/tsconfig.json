@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "target": "ESNext",
+      "module": "ES2020",
+      "forceConsistentCasingInFileNames": true,
+      "strict": false,
+      "moduleResolution": "Node",
+      "esModuleInterop": true,
+      "skipLibCheck": true
+    },
+    "exclude": ["node_modules", "build", "**/*.test.ts"]
+  }
