@@ -1,0 +1,18 @@
+{
+    "javascript": [
+        "js",
+        "ecmascript"
+    ],
+    "node.js": [
+        "node",
+        "nodejs"
+    ],
+    "react": [
+        "react.js",
+        "reactjs"
+    ],
+    "project management": [
+        "program management",
+        "project coordination"
+    ]
+}
