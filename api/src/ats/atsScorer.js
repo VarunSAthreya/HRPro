@@ -6,8 +6,8 @@ const {
   calculateScore,
 } = require("./utils/nlpProcessor");
 
-async function atsScorer(jdPath, resumePath) {
-  let jdText = await parsePDF(jdPath);
+async function atsScorer(jdText, resumePath) {
+  // let jdText = await parsePDF(jdPath);
   let resumeText = await parsePDF(resumePath);
 
   let jdPhrases = extractPhrases(jdText);
