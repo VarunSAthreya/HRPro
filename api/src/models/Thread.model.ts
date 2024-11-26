@@ -4,8 +4,9 @@ import { AgentMessage } from '../types';
 export interface IThread {
   slug: string;
   title: string;
+  description?: string;
   agent_id: string;
-  messages: AgentMessage[];
+  messages?: AgentMessage[];
 }
 
 const ThreadSchema = new mongoose.Schema(
@@ -31,7 +32,11 @@ const ThreadSchema = new mongoose.Schema(
     },
     messages: {
       type: Array,
-      required: true,
+      trim: true,
+    },
+    description: {
+      type: String,
+      min: 3,
       trim: true,
     },
   },

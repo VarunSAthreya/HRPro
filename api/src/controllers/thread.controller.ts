@@ -11,30 +11,21 @@ export const createThread = async (
   next: NextFunction
 ) => {
   try {
-    // const { agent_id } = req.params;
-    const { messages, agent_id } = req.body;
+    const { title, description, agent_id } = req.body;
 
     const thread = new Thread({
       agent_id,
-      messages,
       slug: nanoid(10),
-      title: messages[0].content.slice(0, 10),
+      title,
+      description,
     });
 
-    /*
-    TODO: Here you will only get the messages
-    so you would need to get the agent_id from param
-    then generate slug and title from the messages
-    and save the thread and return the thread body with the response message
-    */
     await thread.save();
-    req.params.thread_id = thread.slug;
-    executeThread(req, res, next);
 
-    // res.status(201).json({
-    //   message: 'Thread created Successfully!',
-    //   data: thread,
-    // });
+    res.status(201).json({
+      message: 'Thread created Successfully!',
+      data: thread,
+    });
   } catch (err: any) {
     next(
       new AppError({
