@@ -35,7 +35,6 @@ class OpenAIAgent extends AgentBase {
   }
 
   async handleResponse(config: AxiosRequestConfig): Promise<any> {
-    // console.dir(config, { depth: null });
     const { data, status } = await axios(config);
     if (status !== 200) {
       throw new Error(data);
@@ -61,7 +60,6 @@ class OpenAIAgent extends AgentBase {
       })
     );
     const response = await axios(config);
-    // clearTimeout(this.timeoutId); // clear timeout to prevent aborting the request
 
     response.data.on('data', (chunk: Buffer) => {
       const messages = chunk
@@ -93,8 +91,6 @@ class OpenAIAgent extends AgentBase {
   }
 
   async execute(params: IAgentExecute): Promise<any> {
-    super.execute(params);
-
     const { messages, stream, req, res } = params;
     this.stream = stream;
 
@@ -116,64 +112,21 @@ class OpenAIAgent extends AgentBase {
     return this.handleResponse(config); // JSON response: Ability
   }
 
-  private async prepareMessages(messages: AgentMessage[]): Promise<any[]> {
-    const query = messages[messages.length - 1].content;
-    const docs = await this.getRAGdata(query);
-    // TODO: Optimize RAG relevancy check
+  async isDocsRelevant(docs: string, query: string): Promise<boolean> {
     const response = await this.handleResponse(
       this.createConfig(
         {
           messages: [
             {
               role: 'system',
-              content: `You are a specialized document relevance assessment agent. Your sole purpose is to determine if a retrieved document is relevant to the given query.
-
-Your task:
-1. Analyze the semantic relationship between the query and the document
-2. Look for direct or indirect topical connections
-3. Consider context and implications
-4. Make a binary relevance decision
-5. Respond ONLY in valid JSON format with a single boolean field "is_relevant"
-
-Guidelines for relevance assessment:
-- Document must contain information that helps answer the query
-- Mere keyword matches are not sufficient for relevance
-- Consider synonyms and related concepts
-- Documents that are tangentially related should be marked as not relevant
-- When in doubt, err on the side of marking as not relevant
-- Technical or domain-specific terms should be understood in their proper context
-
-Response format requirements:
-- Must be valid JSON
-- Must contain exactly one field: "is_relevant"
-- Value must be boolean (true/false)
-- No additional explanations or text
-- No comments or metadata
-
-Example scenarios:
-
-Query: "What is the capital of France?"
-Document: "Paris is the capital and largest city of France, known for the Eiffel Tower."
-Response: {"is_relevant": true}
-
-Query: "What is the capital of France?"
-Document: "France is known for its wine and cheese production in regions like Bordeaux."
-Response: {"is_relevant": false}
-
-Remember:
-- Always maintain strict JSON formatting
-- No explanation of your reasoning
-- Don't add any formatting just the JSON response
-- No additional fields in the response
-- No natural language responses
-- Focus on semantic relevance, not just keyword matching`,
+              content: this.documentRelevancePrompt,
             },
             {
               role: 'user',
               content: `Query: ${query}
-                Document: ${docs}
+                  Document: ${docs}
 
-                .Produce JSON response.`,
+                  .Produce JSON response.`,
             },
           ],
           response_format: {
@@ -185,9 +138,14 @@ Remember:
     );
     console.dir(response, { depth: null });
     const res = JSON.parse(response.message.content);
-    console.log('Response:', res);
+    return res.is_relevant;
+  }
 
-    if (docs && res.is_relevant) {
+  private async prepareMessages(messages: AgentMessage[]): Promise<any[]> {
+    const query = messages[messages.length - 1].content;
+    const docs = await this.getRAGdata(query);
+
+    if (docs && this.isDocsRelevant(docs, query)) {
       messages[
         messages.length - 1
       ].content = `${docs}.\nAnswer the following question based on the above information.\n${query}`;
@@ -329,7 +287,6 @@ Remember:
 
           abilityResponse = JSON.stringify(agentResponse);
         } else if (ability.type === 'function') {
-          // TODO: Create logic to execute function
           const tool = Tools[ability.id];
           const args = JSON.parse(func.arguments);
           const parameters = tool.func
