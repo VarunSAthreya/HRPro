@@ -7,9 +7,7 @@
       "moduleResolution": "Node",
       "esModuleInterop": true,
       "skipLibCheck": true,
-      "resolveJsonModule": true,
-      "allowSyntheticDefaultImports": true,
-      "types": ["pdfjs-dist"]
+      "resolveJsonModule": true
     },
     "exclude": ["node_modules", "build", "**/*.test.ts"]
   }

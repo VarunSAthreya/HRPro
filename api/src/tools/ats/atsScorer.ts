@@ -109,8 +109,6 @@ async function atsScorer(
   // Normalize resume phrases
   resumePhrases = resumePhrases.map((phrase) => phrase.toLowerCase());
 
-  console.log("jdPhrases", jdPhrases);
-
   const { score, matchedSkills } = calculateScore(
     jdPhrases,
     resumePhrases
