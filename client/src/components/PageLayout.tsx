@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 function PageLayout({ className = "", children }) {
   const [showSidebar, setShowSidebar] = useState(true);
   return (
-    <div className="flex flex-nowrap">
+    <div className="flex flex-nowrap h-screen overflow-hidden">
       <PanelLeftOpen
         size={24}
         className="fixed top-[1rem] left-[1rem] cursor-pointer z-10"
