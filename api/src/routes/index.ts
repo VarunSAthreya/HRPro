@@ -23,10 +23,9 @@ router
   .delete(deleteAgent);
 router.route('/agent/:agent_id/ingest').post(ingestData);
 
-// router.route('/').get(getAllEvents).post(createEvent);
 router.route('/thread').get(getAllThread).post(createThread);
 router.route('/thread/:thread_id').get(getThreadById).post(executeThread);
 
-// router.route('/:id').get(getEventById).put(updateEvent).delete(deleteEvent);
+router.route('/rag/agent/:agent_id').post(ragAgent);
 
 export default router;

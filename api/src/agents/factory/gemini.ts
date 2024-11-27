@@ -37,9 +37,6 @@ class GeminiAgent extends AgentBase {
       config
     );
 
-    //clearTimeout(this.timeoutId); // clear timeout to prevent aborting the request
-
-    // eslint-disable-next-line no-restricted-syntax
     for await (const item of streamingResult.stream) {
       res.write(
         item.candidates[0].content.parts
@@ -51,7 +48,6 @@ class GeminiAgent extends AgentBase {
   }
 
   async execute(params: IAgentExecute): Promise<any> {
-    super.execute(params);
     const { messages, stream, req, res } = params;
     this.stream = stream;
 
@@ -97,18 +93,16 @@ class GeminiAgent extends AgentBase {
     return this.generativeModel.generateContent({ contents: data }); // JSON response: Ability
   }
 
-  private async prepareMessages(messages: AgentMessage[]): Promise<any> {
-    const result = [];
-    const docs = await this.getRAGdata(messages[messages.length - 1].content);
+  async isDocsRelevant(docs: string, query: string): Promise<boolean> {
     const response = await this.generativeModel.generateContent({
       contents: [
         {
           role: 'user',
           parts: [
             {
-              text: `Query: ${messages[messages.length - 1].content}
-            Document: ${docs}
-            `,
+              text: `Query: ${query}
+              Document: ${docs}
+              `,
             },
           ],
         },
@@ -117,63 +111,27 @@ class GeminiAgent extends AgentBase {
         role: 'system',
         parts: [
           {
-            text: `You are a specialized document relevance assessment agent. Your sole purpose is to determine if a retrieved document is relevant to the given query.
-
-Your task:
-1. Analyze the semantic relationship between the query and the document
-2. Look for direct or indirect topical connections
-3. Consider context and implications
-4. Make a binary relevance decision
-5. Respond ONLY in valid JSON format with a single boolean field "is_relevant"
-
-Guidelines for relevance assessment:
-- Document must contain information that helps answer the query
-- Mere keyword matches are not sufficient for relevance
-- Consider synonyms and related concepts
-- Documents that are tangentially related should be marked as not relevant
-- When in doubt, err on the side of marking as not relevant
-- Technical or domain-specific terms should be understood in their proper context
-
-Response format requirements:
-- Must be valid JSON
-- Must contain exactly one field: "is_relevant"
-- Value must be boolean (true/false)
-- No additional explanations or text
-- No comments or metadata
-
-Example scenarios:
-
-Query: "What is the capital of France?"
-Document: "Paris is the capital and largest city of France, known for the Eiffel Tower."
-Response: {"is_relevant": true}
-
-Query: "What is the capital of France?"
-Document: "France is known for its wine and cheese production in regions like Bordeaux."
-Response: {"is_relevant": false}
-
-Remember:
-- Always maintain strict JSON formatting
-- No explanation of your reasoning
-- No additional fields in the response
-- No natural language responses
-- Focus on semantic relevance, not just keyword matching`,
+            text: this.documentRelevancePrompt,
           },
         ],
       },
     });
 
-    console.log('Response:', response);
     const res = JSON.parse(
       response.response.candidates[0].content.parts[0].text
     );
-    console.log('Response:', res);
+    return res.is_relevant;
+  }
 
-    // messages.map(async (message, index) => {
+  private async prepareMessages(messages: AgentMessage[]): Promise<any> {
+    const result = [];
+    const docs = await this.getRAGdata(messages[messages.length - 1].content);
+
     for (let index = 0; index < messages.length; index++) {
       const message = messages[index];
       let { content } = message;
       if (index === messages.length - 1) {
-        if (docs && res.is_relevant) {
+        if (docs && this.isDocsRelevant(docs, content)) {
           content = `
             ${docs}.
             Answer the following question based on the above information.
@@ -282,31 +240,6 @@ Remember:
         }
 
         abilityResponse = automationResponse.data;
-        // TODO: Implement automation execution
-        // const rule: any = await this.ruleModel
-        //   .findOne({ id: ability.id })
-        //   .exec();
-        // if (!rule) throw new Error('Rule not found');
-        // const subAutomationResponse = await this.runService.runPostSync(
-        //   rule.trigger.id,
-        //   req.id as string,
-        //   req.query,
-        //   args,
-        //   req.headers
-        // );
-        // if (subAutomationResponse.statusCode !== 200) {
-        //   if (this.stream) {
-        //     res.write(
-        //       JSON.stringify({
-        //         type: 'error',
-        //         data: `Error executing Agent Ability: ${subAutomationResponse.data.error}`,
-        //       })
-        //     );
-        //     res.end();
-        //   }
-        //   throw new Error(subAutomationResponse.data.error);
-        // }
-        // abilityResponse = subAutomationResponse.data;
       } else if (ability.type === 'agent') {
         console.log('func:', args);
         const prompt = args.prompt;
@@ -339,36 +272,8 @@ Remember:
         }
 
         abilityResponse = agentResponse;
-        // TODO: Implement agent execution
-        // const [agentResponseError, agentResponse] = await handlePromise(
-        //   this.runService.runAgent(
-        //     ability.id,
-        //     {
-        //       messages: [{ role: 'user', content: args.prompt }],
-        //       stream: false,
-        //     },
-        //     null,
-        //     null
-        //   )
-        // );
-        // if (agentResponseError) {
-        //   if (this.stream) {
-        //     res.write(
-        //       JSON.stringify({
-        //         type: 'error',
-        //         data: `Error executing Agent Ability: ${agentResponseError}`,
-        //       })
-        //     );
-        //     res.end();
-        //   }
-        //   throw agentResponseError;
-        // }
-        // abilityResponse = agentResponse;
       } else if (ability.type === 'function') {
-        // TODO: Implement function execution
-
         const tool = Tools[ability.id];
-        // const args = JSON.parse(func.arguments);
         const parameters = tool.func
           .toString()
           .match(/\(([^)]+)\)/)[1]
