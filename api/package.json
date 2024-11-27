@@ -6,7 +6,8 @@
   "scripts": {
     "build": "esbuild src/index.ts --bundle --platform=node --outfile=build/index.js",
     "start": "node build/index.js",
-    "dev": "nodemon --exec 'node -r esbuild-runner/register' src/index.ts"
+    "dev": "nodemon --exec 'node -r esbuild-runner/register' src/index.ts",
+    "seed": "node -r esbuild-runner/register src/seeding/index.ts"
   },
   "keywords": [],
   "author": "",

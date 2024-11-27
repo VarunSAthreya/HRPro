@@ -112,21 +112,32 @@ export const executeThread = async (
 
     const combinedMessages = [...thread.messages, ...messages];
 
-    /*
-    TODO: Implement agent execution logic here
-    */
     const runAgent = AgentFactory.createAgent(agent as IAgent);
+    console.log('runAgent', thread_id);
+
+    if (stream) {
+      res.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        Connection: 'keep-alive',
+      });
+    }
     await runAgent.execute({
       messages: combinedMessages,
       stream,
+      threadId: thread_id,
       req,
       res,
     });
 
-    res.status(200).json({
-      message: 'Thread executed successfully!',
-      data: thread,
-    });
+    // if (stream) {
+    //   res.end();
+    // }
+
+    // res.status(200).json({
+    //   message: 'Thread executed successfully!',
+    //   data: thread,
+    // });
   } catch (err: any) {
     next(
       new AppError({

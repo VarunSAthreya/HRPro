@@ -10,6 +10,8 @@ export const {
   AUTOMATION_URL,
   AUTOMATION_PROJECTID,
   LLAMA_MODEL,
+  ZOOM_LINK,
+  OPENAI_API_KEY,
 } = parseEnv(process.env, {
   MONGO_URL: {
     schema: z.string().url().default('mongodb://localhost:27017/devfest'),
@@ -22,4 +24,6 @@ export const {
   AUTOMATION_URL: z.string().url(),
   AUTOMATION_PROJECTID: z.string(),
   LLAMA_MODEL: z.string().default('llama3.2'),
+  ZOOM_LINK: z.string().default('https://zoom.us/j/1234567890'),
+  OPENAI_API_KEY: z.string(),
 });

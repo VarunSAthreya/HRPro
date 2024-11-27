@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #e0e0e0;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      color: #2c7c31;
+    }
+    p {
+      margin: 10px 0;
+    }
+    .cta-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      color: #fff;
+      background-color: #2c7c31;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .cta-button:hover {
+      background-color: #256426;
+    }
+    .footer {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <h1>Congratulations on Your Selection!</h1>
+    <p>Dear [Candidate's Name],</p>
+    <p>We are thrilled to offer you the position of <strong>[Position Name]</strong> at <strong>[Company Name]</strong>! Your skills, experience, and enthusiasm stood out during the selection process, and we are excited to welcome you to our team.</p>
+    <p>Here are the key details of your offer:</p>
+    <ul>
+      <li><strong>Start Date:</strong> [Start Date]</li>
+      <li><strong>Reporting Manager:</strong> [Manager's Name]</li>
+      <li><strong>Location:</strong> [Work Location or Remote]</li>
+    </ul>
+    <p>To accept this offer and proceed with the onboarding process, please click the button below:</p>
+    <a href="[Acceptance Link]" class="cta-button">Accept Offer</a>
+    <p>If you have any questions or need further clarification, feel free to reach out to us at [Your Email Address].</p>
+    <p>We look forward to working with you and are confident that you will make an excellent addition to our team!</p>
+    <p>Warm regards,</p>
+    <p>[Your Name] <br>
+    [Your Job Title] <br>
+    [Company Name]</p>
+    <div class="footer">
+      <p>Note: This offer is valid until [Offer Expiry Date]. Please respond before this date to confirm your acceptance.</p>
+    </div>
+  </div>
+</body>
+</html>

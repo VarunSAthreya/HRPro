@@ -13,6 +13,7 @@ import { AgentMessage } from '../../types';
 import { automateHTTP, handlePromise } from '../../utils';
 import { AgentBase, IAgentExecute } from './base';
 
+// TODO: Implement saving the thread messages to the database and streaming response
 class GeminiAgent extends AgentBase {
   stream = false;
 
@@ -48,6 +49,8 @@ class GeminiAgent extends AgentBase {
   }
 
   async execute(params: IAgentExecute): Promise<any> {
+    super.execute(params);
+
     const { messages, stream, req, res } = params;
     this.stream = stream;
 
@@ -73,8 +76,6 @@ class GeminiAgent extends AgentBase {
     });
 
     const preparedMessages = await this.prepareMessages(messages);
-
-    console.log('Prepared Messages:', preparedMessages);
 
     const data = this.agent.abilities.length
       ? await this.prepareData(preparedMessages, req, res)
@@ -187,7 +188,6 @@ class GeminiAgent extends AgentBase {
       console.error(error);
       throw new Error('Error in generating agent schema');
     }
-    console.log('Run FC Result:', runFCResult);
 
     while (runFCResult.response.candidates[0].content.parts[0].functionCall) {
       messages.push(runFCResult.response.candidates[0].content);
@@ -207,13 +207,11 @@ class GeminiAgent extends AgentBase {
 
       let abilityResponse = null;
       if (ability.type === 'automation') {
-        console.log('Automation:', ability);
         const rule = await automateHTTP({
           url: `projects/${AUTOMATION_PROJECTID}/rules/${ability.id}`,
           method: 'get',
         });
 
-        console.log('Rule:', rule.data.trigger.id);
         if (!rule) throw new Error('Rule not found');
 
         const [automationError, automationResponse] = await handlePromise(
@@ -223,8 +221,6 @@ class GeminiAgent extends AgentBase {
             data: args,
           })
         );
-        console.log('Automation Error:', automationError);
-        console.log('Automation Response:', automationResponse.data);
 
         if (automationResponse.status !== 200) {
           if (this.stream) {
@@ -241,7 +237,6 @@ class GeminiAgent extends AgentBase {
 
         abilityResponse = automationResponse.data;
       } else if (ability.type === 'agent') {
-        console.log('func:', args);
         const prompt = args.prompt;
         const [agentResponseError, agentResponse] = await handlePromise(
           executeAgent(
@@ -255,8 +250,6 @@ class GeminiAgent extends AgentBase {
             false
           )
         );
-        console.log('Agent Error:', agentResponseError);
-        console.log('Agent Response:', agentResponse);
 
         if (agentResponseError) {
           if (this.stream) {
@@ -279,13 +272,9 @@ class GeminiAgent extends AgentBase {
           .match(/\(([^)]+)\)/)[1]
           .split(',')
           .map((param) => param.trim());
-        console.log('Function:', tool);
-        console.log('Parameters:', parameters);
-        console.log('Args:', args);
         const result = await tool.func(
           ...parameters.map((param) => args[param])
         );
-        console.log('Result:', JSON.stringify(result));
         abilityResponse = result;
       }
 

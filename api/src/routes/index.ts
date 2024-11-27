@@ -24,8 +24,9 @@ router
 router.route('/agent/:agent_id/ingest').post(ingestData);
 
 router.route('/thread').get(getAllThread).post(createThread);
-router.route('/thread/:thread_id').get(getThreadById).post(executeThread);
+router.route('/thread/:thread_id').post(executeThread);
+router.route('/thread/:thread_id').get(getThreadById);
 
-router.route('/rag/agent/:agent_id').post(ragAgent);
+// router.route('/rag/agent/:agent_id').post(ragAgent);
 
 export default router;

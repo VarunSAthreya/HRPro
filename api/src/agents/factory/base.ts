@@ -16,12 +16,14 @@ import { automateHTTP, handlePromise } from '../../utils';
 export type IAgentExecute = {
   messages: AgentMessage[];
   stream: boolean;
+  threadId?: string;
   req: Request;
   res: Response;
 };
 
 export abstract class AgentBase {
   agent: IAgent;
+  threadId?: string;
 
   constructor(agent: IAgent) {
     this.agent = agent;
@@ -72,7 +74,9 @@ export abstract class AgentBase {
 
   abstract isDocsRelevant(docs: string, query: string): Promise<boolean>;
 
-  abstract execute(params: IAgentExecute);
+  execute(params: IAgentExecute) {
+    this.threadId = params.threadId;
+  }
 
   private async generateFunctionCallingSchema(
     agentIds: string[],
@@ -165,9 +169,6 @@ export abstract class AgentBase {
       }
     });
 
-    console.log('agentIds', agentIds);
-    console.log('agentNames', agentNames);
-
     const [agentSchemaError, agentSchema] = await handlePromise(
       this.generateFunctionCallingSchema(agentIds, agentNames, provider)
     );
@@ -175,7 +176,6 @@ export abstract class AgentBase {
       throw new Error('Error in generating agent schema');
     }
 
-    console.log('ruleIds', ruleIds);
     let [ruleSchemaError, ruleSchema] = await handlePromise(
       automateHTTP({
         method: 'post',

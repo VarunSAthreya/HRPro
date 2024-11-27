@@ -1,0 +1,97 @@
+
+Senior Software Engineer I
+What is Contentstack?
+
+Contentstack is the creator of the headless CMS and the Composable Digital Experience Platform (DXP) category leader. Iconic brands around the world, such as Alaska Airlines, ASICS, Burberry, Mattel, Mitsubishi, and Walmart, invest in Contentstack to rise above the noise in today's crowded and competitive digital markets and to gain their unique Experience Edge. Contentstack and its employees are dedicated to the customers and communities they serve. The company is recognized for its unmatched customer care and tradition of giving back globally through the Contentstack Cares program, including proud support of Pledge 1% and Girls Who Code. Learn more at www.contentstack.com.
+
+Who Are We?
+
+At Contentstack we are more than colleagues, we are a tribe. Our vision is to pursue equity among our communities, employees, partners, and customers. We are global-diverse yet close; distributed yet connected. We are dreamers and dreammakers who challenge the status quo. We do the right thing, even when no one is watching. We are curious trendspotters and brave trendsetters. Our mission is to make Contentstack indispensable for organizations to tell their stories and to connect with the people they care about through inspiring, modern experiences. We care deeply about our customers and the communities we serve. #OneTeamOneDream. Chalo, let’s go!
+
+What Are We Looking For?
+
+Contentstack is looking for a Senior Software Engineer I. If you’re looking for an opportunity to join an innovative, fun, and fast-paced team where your contributions will have a meaningful impact, we’d love to hear from you!
+
+Roles & Responsibilities:
+
+Work across the stack, from a code commit to running it in production, with the end goal of delivering the best possible experience for the user
+Design, develop and test features from inception to rollout
+Write high quality code that is scalable, testable, maintainable and reliable
+Independently own and drive new features from scratch
+Work in an Agile environment and facilitate agile practices
+Champion best practices and cross-functional skill development
+Mentor and guide junior team members
+Cultivate talent and bring out the best in your team members
+Continuously improve by working on and providing feedback
+Required skill sets:
+
+4+ years of product and application development experience
+Experience working with Node.js or Golang or Java on the backend and React.js on the frontend.
+Working experience with any NoSQL databases like MongoDB, DynamoDB or Redis or PostgreSQL
+Experience in Big data technologies like Spark, Kafka is an added advantage
+Good experience working in Data pipelines or Distributed Systems is an added advantage
+Good experience and understanding of working with Microservice-based Architecture.
+Good knowledge of AWS, Kubernetes, Kafka, GraphQL, GRPC, etc is preferred
+Experience practicing Agile software development methods is preferred.
+Flexible and curious in adapting to new technologies and trends.
+Excellent written and verbal communication skills
+
+
+What Do We Offer?
+
+Interesting Work | We hire curious trendspotters and brave trendsetters. This is NOT your boring, routine, cushy, rest-and-vest corporate job. This is the “challenge yourself” role where you learn something new every day, never stop growing, and have fun while you’re doing it.
+
+Tribe Vibe | We are more than colleagues, we are a tribe. We have a strict “no a**hole policy” and enforce it diligently. This means we spend time together - with spontaneous office happy hours, organized outings, and community volunteer opportunities. We are a diverse and distributed team, but we like to stay connected.
+
+Bragging Rights | We are dreamers and dream makers. Our efforts pay off and we work with the most prestigious brands, from big-name retailers to airlines, to professional sports teams. Your contribution will make an impact with many of the most recognizable names in almost every industry including ASICS, Chase, Steve Madden, Holiday Inn, Icelandair, Mattel, Mitsubishi, Riot Games, Shell, and many more!
+
+One Team One Dream | This is one of our values, and it shows. We don’t believe in artificial hierarchies. If you’re part of the tribe, you have an opportunity to contribute. Your voice will be heard and you will also receive regular updates about the business and its performance. Which, btw, is through the roof, so it’s a great time to be joining…
+
+
+Senior Software Engineer II (Node.js backend)
+What is Contentstack?
+
+Contentstack is the creator of the headless CMS and the Composable Digital Experience Platform (DXP) category leader. Iconic brands around the world, such as Alaska Airlines, ASICS, Burberry, Mattel, Mitsubishi, and Walmart, invest in Contentstack to rise above the noise in today's crowded and competitive digital markets and to gain their unique Experience Edge. Contentstack and its employees are dedicated to the customers and communities they serve. The company is recognized for its unmatched customer care and tradition of giving back globally through the Contentstack Cares program, including proud support of Pledge 1% and Girls Who Code. Learn more at www.contentstack.com.
+
+Who Are We?
+
+At Contentstack we are more than colleagues, we are a tribe. Our vision is to pursue equity among our communities, employees, partners, and customers. We are global-diverse yet close; distributed yet connected. We are dreamers and dreammakers who challenge the status quo. We do the right thing, even when no one is watching. We are curious trendspotters and brave trendsetters. Our mission is to make Contentstack indispensable for organizations to tell their stories and to connect with the people they care about through inspiring, modern experiences. We care deeply about our customers and the communities we serve. #OneTeamOneDream. Chalo, let’s go!
+
+What Are We Looking For?
+
+Contentstack is looking for a Senior Software Engineer II. If you’re looking for an opportunity to join an innovative, fun, and fast-paced team where your contributions will have a meaningful impact, we’d love to hear from you! Here’s what you’ll be doing.
+
+Roles and responsibilities:
+
+Build high performing products at scale with industry trending standards of microservices.
+Write and review maitainable, scalable and efficient code with focus on TDD
+Play an important role in supporting and enhancing the architecture and framework of applications. Help define technical solutions from the design and architecture through development, coding and unit testing.
+Document technical designs using flow charts, class diagrams, sequence diagrams, activity diagrams, data flow diagrams, database sachems, descriptive software component documentation, and wireframes.
+Work closely with the implementation teams of the various-product lines to ensure that architectural standards and best practices are being followed consistently across all applications
+Help team improve processes, adopt tools that gear towards faster release cycles and increased velocity, quality
+Provide leadership and guidance to coach, motivate, and lead team members to their optimum performance levels and career development
+Required skill sets:
+
+Expertise in Node.js, JavaScript and AWS or any other cloud platform
+Good knowledge of front end technology like React.js
+Good working experience in Microservices based architecture
+Good knowledge in MongoDB, Elasticsearch, Redis
+Expertise in cloud development and deployment
+Experience managing / mentoring development teams
+Ability to accurately estimate software development tasks-given a set of requirements and assumptions
+Ability to work with Project Managers to develop task-level project plans and proposals
+Ability to develop secure solutions and knowledge of industry best practices regarding information security and defensive development
+Strong understanding of cross-browser compatibility and limitation issues
+Excellent oral and written communication
+Experience - 6 to 8 Years
+Location - Pune (Hybrid)
+
+What Do We Offer?
+
+Interesting Work | We hire curious trendspotters and brave trendsetters. This is NOT your boring, routine, cushy, rest-and-vest corporate job. This is the “challenge yourself” role where you learn something new every day, never stop growing, and have fun while you’re doing it.
+
+Tribe Vibe | We are more than colleagues, we are a tribe. We have a strict “no a**hole policy” and enforce it diligently. This means we spend time together - with spontaneous office happy hours, organized outings, and community volunteer opportunities. We are a diverse and distributed team, but we like to stay connected.
+
+Bragging Rights | We are dreamers and dream makers. Our efforts pay off and we work with the most prestigious brands, from big-name retailers to airlines, to professional sports teams. Your contribution will make an impact with many of the most recognizable names in almost every industry including ASICS, Chase, Steve Madden, Holiday Inn, Icelandair, Mattel, Mitsubishi, Riot Games, Shell, and many more!
+
+One Team One Dream | This is one of our values, and it shows. We don’t believe in artificial hierarchies. If you’re part of the tribe, you have an opportunity to contribute. Your voice will be heard and you will also receive regular updates about the business and its performance. Which, btw, is through the roof, so it’s a great time to be joining…

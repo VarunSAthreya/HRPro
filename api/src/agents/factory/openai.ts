@@ -5,18 +5,18 @@ import { Request, Response } from 'express';
 import { executeAgent } from '../../controllers/agent.controller';
 import { AUTOMATION_PROJECTID } from '../../env';
 import { AgentResponseType } from '../../models/Agent.model';
+import ThreadModel from '../../models/Thread.model';
 import Tools from '../../tools';
 import { AgentMessage } from '../../types';
 import { automateHTTP, handlePromise } from '../../utils';
 import { AgentBase, IAgentExecute } from './base';
 
+// TODO: Implement streaming response
 class OpenAIAgent extends AgentBase {
   stream = false;
 
   createConfig(data: Record<string, any>, stream: boolean): AxiosRequestConfig {
-    console.log('Auth:', this.agent.auth);
     const { api_key } = JSON.parse(this.agent.auth);
-    console.log('API Key:', api_key);
     return {
       method: 'post',
       url: 'https://api.openai.com/v1/chat/completions',
@@ -39,20 +39,20 @@ class OpenAIAgent extends AgentBase {
     if (status !== 200) {
       throw new Error(data);
     }
-    return data.choices[0];
+    const response = data.choices[0];
+    console.log('response', response);
+    console.log('this.threadId', this.threadId);
+    if (this.threadId) {
+      const messages = [...config.data.messages, response.delta];
+      await ThreadModel.findOneAndUpdate({ slug: this.threadId }, { messages });
+    }
+    return response;
   }
 
   async handleStreamResponse(
     config: AxiosRequestConfig,
     res: Response
   ): Promise<void> {
-    if (this.agent.abilities.length === 0) {
-      res.writeHead(200, {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        Connection: 'keep-alive',
-      });
-    }
     res.write(
       JSON.stringify({
         type: 'status',
@@ -60,6 +60,7 @@ class OpenAIAgent extends AgentBase {
       })
     );
     const response = await axios(config);
+    let finalMessage = '';
 
     response.data.on('data', (chunk: Buffer) => {
       const messages = chunk
@@ -76,14 +77,25 @@ class OpenAIAgent extends AgentBase {
       for (const message of messages) {
         if (message === '[DONE]') return res.end();
         try {
-          res.write(JSON.parse(message).choices[0].delta.content);
+          const parsedMessage = JSON.parse(message).choices[0].delta.content;
+          finalMessage += parsedMessage;
+          res.write(parsedMessage);
         } catch (err) {
           // console.error('Error parsing message:', err);
         }
       }
     });
 
-    response.data.on('end', () => res.end());
+    response.data.on('end', () => {
+      res.end();
+      if (this.threadId) {
+        const messages = [
+          ...config.data.messages,
+          { role: 'system', content: finalMessage },
+        ];
+        ThreadModel.findOneAndUpdate({ slug: this.threadId }, { messages });
+      }
+    });
     response.data.on('error', (error: Error) => {
       console.error('Stream error:', error);
       res.status(500).send('Stream error');
@@ -91,6 +103,8 @@ class OpenAIAgent extends AgentBase {
   }
 
   async execute(params: IAgentExecute): Promise<any> {
+    super.execute(params);
+
     const { messages, stream, req, res } = params;
     this.stream = stream;
 
@@ -170,14 +184,11 @@ class OpenAIAgent extends AgentBase {
       });
     }
 
-    console.log('Messages:', messages);
     return messages;
   }
 
   private async prepareData(messages: any[], req: Request, res: Response) {
     const fcSchema = await this.getAbilitySchema();
-
-    console.log(JSON.stringify(fcSchema, null, 2));
 
     let initialData = {
       messages,
@@ -185,11 +196,6 @@ class OpenAIAgent extends AgentBase {
       tool_choice: 'auto',
     };
     if (this.stream) {
-      res.writeHead(200, {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        Connection: 'keep-alive',
-      });
       res.write(
         JSON.stringify({
           type: 'status',
@@ -221,13 +227,11 @@ class OpenAIAgent extends AgentBase {
 
         let abilityResponse = null;
         if (ability.type === 'automation') {
-          console.log('Automation:', ability);
           const rule = await automateHTTP({
             url: `projects/${AUTOMATION_PROJECTID}/rules/${ability.id}`,
             method: 'get',
           });
 
-          console.log('Rule:', rule.data.trigger.id);
           if (!rule) throw new Error('Rule not found');
 
           const [automationError, automationResponse] = await handlePromise(
@@ -237,8 +241,6 @@ class OpenAIAgent extends AgentBase {
               data: func.arguments,
             })
           );
-          console.log('Automation Error:', automationError);
-          console.log('Automation Response:', automationResponse.data);
 
           if (automationResponse.status !== 200) {
             if (this.stream) {
@@ -255,7 +257,6 @@ class OpenAIAgent extends AgentBase {
 
           abilityResponse = JSON.stringify(automationResponse.data);
         } else if (ability.type === 'agent') {
-          console.log('func:', func.arguments);
           const prompt = JSON.parse(func.arguments).prompt;
           const [agentResponseError, agentResponse] = await handlePromise(
             executeAgent(
@@ -269,8 +270,6 @@ class OpenAIAgent extends AgentBase {
               false
             )
           );
-          console.log('Agent Error:', agentResponseError);
-          console.log('Agent Response:', agentResponse);
 
           if (agentResponseError) {
             if (this.stream) {
@@ -294,14 +293,10 @@ class OpenAIAgent extends AgentBase {
             .match(/\(([^)]+)\)/)[1]
             .split(',')
             .map((param) => param.trim());
-          console.log('Function:', tool);
-          console.log('Parameters:', parameters);
-          console.log('Args:', args);
           const result = await tool.func(
             ...parameters.map((param) => args[param])
           );
-          console.log('Result:', result);
-          abilityResponse = result;
+          abilityResponse = JSON.stringify(result);
         }
 
         messages.push({
