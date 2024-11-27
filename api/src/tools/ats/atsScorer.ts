@@ -81,8 +81,9 @@ async function atsScorer(
     downloadPDF(resumeUrl, resumePath)
   ]);
 
-  const jdText: string = await parsePDF(jdPath);
-  const resumeText: string = await parsePDF(resumePath);
+
+  const [jdText, resumeText] = await Promise.all([parsePDF(jdPath), parsePDF(resumePath)]);
+
 
   let jdPhrases: string[] = extractPhrases(jdText);
 
