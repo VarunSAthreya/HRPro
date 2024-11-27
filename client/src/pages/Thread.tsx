@@ -1,9 +1,8 @@
 import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PaperclipIcon, SendHorizontalIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
-import { MdOutlineAttachFile } from "react-icons/md";
-import { RiSendPlaneFill } from "react-icons/ri";
 import { useParams } from "react-router-dom";
 import MessageBox from "../components/MessageBox";
 
@@ -30,7 +29,7 @@ function Thread() {
           variant={"ghost"}
           className=" flex items-center justify-center w-12 h-12 rounded-full"
         >
-          <MdOutlineAttachFile />
+          <PaperclipIcon size={32} />
         </Button>
 
         <Input
@@ -44,7 +43,7 @@ function Thread() {
           variant={"ghost"}
           className=" flex items-center justify-center w-12 h-12 rounded-full"
         >
-          <RiSendPlaneFill />
+          <SendHorizontalIcon size={32} />
         </Button>
       </div>
     </PageLayout>
