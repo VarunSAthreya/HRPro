@@ -230,5 +230,277 @@
     "business intelligence": [
         "bi",
         "data insights"
+    ],
+    "microservices": [
+        "service-oriented architecture",
+        "soa"
+    ],
+    "monolithic architecture": [
+        "monolith",
+        "single-tier architecture"
+    ],
+    "event-driven architecture": [
+        "eda",
+        "event streaming"
+    ],
+    "rest": [
+        "restful api",
+        "representational state transfer"
+    ],
+    "graphql": [
+        "graph query language",
+        "graphql api"
+    ],
+    "grpc": [
+        "google remote procedure call",
+        "grpc protocol"
+    ],
+    "websocket": [
+        "real-time communication",
+        "full-duplex communication"
+    ],
+    "message queue": [
+        "mq",
+        "message broker"
+    ],
+    "apache kafka": [
+        "event streaming",
+        "kafka messaging"
+    ],
+    "rabbitmq": [
+        "message broker",
+        "queue management"
+    ],
+    "apache activeMQ": [
+        "messaging middleware",
+        "message-oriented middleware"
+    ],
+    "ci/cd": [
+        "continuous integration",
+        "continuous delivery"
+    ],
+    "pipeline": [
+        "build pipeline",
+        "ci pipeline"
+    ],
+    "source control": [
+        "version control",
+        "scm"
+    ],
+    "git": [
+        "version control system",
+        "distributed scm"
+    ],
+    "github": [
+        "git hosting",
+        "version control platform"
+    ],
+    "gitlab": [
+        "devops platform",
+        "gitlab ci"
+    ],
+    "bitbucket": [
+        "source hosting",
+        "bitbucket pipelines"
+    ],
+    "mercurial": [
+        "hg",
+        "distributed version control"
+    ],
+    "svn": [
+        "subversion",
+        "centralized version control"
+    ],
+    "design patterns": [
+        "software patterns",
+        "object-oriented patterns"
+    ],
+    "singleton pattern": [
+        "single instance",
+        "design pattern"
+    ],
+    "factory pattern": [
+        "object creation pattern",
+        "factory method"
+    ],
+    "observer pattern": [
+        "publish-subscribe",
+        "event listener"
+    ],
+    "dependency injection": [
+        "di",
+        "inversion of control"
+    ],
+    "solid principles": [
+        "object-oriented principles",
+        "software design principles"
+    ],
+    "clean code": [
+        "code quality",
+        "readable code"
+    ],
+    "refactoring": [
+        "code improvement",
+        "cleaning up code"
+    ],
+    "unit testing": [
+        "test-driven development",
+        "tdd"
+    ],
+    "integration testing": [
+        "system testing",
+        "e2e testing"
+    ],
+    "mocking": [
+        "test doubles",
+        "mock objects"
+    ],
+    "api testing": [
+        "restful api tests",
+        "graphql testing"
+    ],
+    "load testing": [
+        "performance testing",
+        "stress testing"
+    ],
+    "regression testing": [
+        "software regression",
+        "bug fix verification"
+    ],
+    "software architecture": [
+        "system design",
+        "software design"
+    ],
+    "data structures": [
+        "linked lists",
+        "binary trees"
+    ],
+    "algorithms": [
+        "sorting algorithms",
+        "searching algorithms"
+    ],
+    "big o notation": [
+        "time complexity",
+        "space complexity"
+    ],
+    "design system": [
+        "component library",
+        "ui framework"
+    ],
+    "api gateway": [
+        "gateway service",
+        "reverse proxy"
+    ],
+    "proxy server": [
+        "forward proxy",
+        "reverse proxy"
+    ],
+    "load balancing": [
+        "traffic distribution",
+        "scaling server"
+    ],
+    "edge computing": [
+        "edge devices",
+        "decentralized computing"
+    ],
+    "serverless": [
+        "faas",
+        "serverless architecture"
+    ],
+    "lambda functions": [
+        "aws lambda",
+        "cloud functions"
+    ],
+    "virtual machines": [
+        "vms",
+        "hypervisor"
+    ],
+    "containerization": [
+        "docker",
+        "containerized applications"
+    ],
+    "orchestration": [
+        "kubernetes",
+        "container orchestration"
+    ],
+    "observability": [
+        "logging",
+        "monitoring"
+    ],
+    "metrics": [
+        "system performance",
+        "monitoring data"
+    ],
+    "logging": [
+        "log aggregation",
+        "application logs"
+    ],
+    "tracing": [
+        "distributed tracing",
+        "trace propagation"
+    ],
+    "monitoring": [
+        "system health",
+        "application monitoring"
+    ],
+    "incident management": [
+        "incident response",
+        "downtime handling"
+    ],
+    "debugging": [
+        "bug fixing",
+        "troubleshooting"
+    ],
+    "profiling": [
+        "performance profiling",
+        "code profiling"
+    ],
+    "code reviews": [
+        "peer reviews",
+        "merge request checks"
+    ],
+    "pair programming": [
+        "collaborative coding",
+        "paired development"
+    ],
+    "agile development": [
+        "scrum",
+        "kanban"
+    ],
+    "waterfall model": [
+        "traditional development",
+        "sequential model"
+    ],
+    "release management": [
+        "deployment planning",
+        "version release"
+    ],
+    "software documentation": [
+        "technical writing",
+        "api documentation"
+    ],
+    "end-to-end testing": [
+        "e2e tests",
+        "system testing"
+    ],
+    "code coverage": [
+        "test coverage",
+        "coverage analysis"
+    ],
+    "static code analysis": [
+        "linting",
+        "code quality tools"
+    ],
+    "continuous delivery": [
+        "cd",
+        "automated deployment"
+    ],
+    "continuous deployment": [
+        "fully automated deployment",
+        "zero downtime"
+    ],
+    "rollback": [
+        "deployment rollback",
+        "version revert"
     ]
 }
