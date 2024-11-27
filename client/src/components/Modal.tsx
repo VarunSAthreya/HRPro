@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useNavigate } from "react-router-dom";
+import { PlusIcon } from "lucide-react"
 
 function Modal({ className }) {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ function Modal({ className }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className={className}>Create thread</Button>
+        <Button className={className}><PlusIcon />Create thread</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
