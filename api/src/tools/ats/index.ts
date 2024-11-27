@@ -1,19 +1,17 @@
-import {
-  extractPhrases,
-  expandSynonyms,
-  calculateScore,
-} from './utils/nlpProcessor';
-import axios from "axios";
+import axios from 'axios';
 import fs from 'fs';
-import path from "path";
-import { v4 as uuidv4 } from 'uuid';
-import parsePdf from "./utils/pdfParser";
-
+import { nanoid } from 'nanoid';
+import path from 'path';
+import {
+  calculateScore,
+  expandSynonyms,
+  extractPhrases,
+} from './utils/nlpProcessor';
+import parsePdf from './utils/pdfParser';
 
 interface ScoreResult {
   score: number;
 }
-
 
 function getGoogleDriveDirectDownloadLink(sharingUrl: string): string {
   // Extract the file ID from the sharing URL
@@ -44,8 +42,8 @@ async function downloadPDF(url: string, outputPath: string): Promise<void> {
       maxContentLength: Infinity,
       maxBodyLength: Infinity,
       headers: {
-        'User-Agent': 'Mozilla/5.0',  // Sometimes helps with download restrictions
-      }
+        'User-Agent': 'Mozilla/5.0', // Sometimes helps with download restrictions
+      },
     });
 
     // Ensure the directory exists
@@ -54,7 +52,6 @@ async function downloadPDF(url: string, outputPath: string): Promise<void> {
 
     // Write the file
     await fs.promises.writeFile(outputPath, response.data);
-
   } catch (error) {
     console.error('Error downloading PDF:', error);
     throw error;
@@ -62,31 +59,30 @@ async function downloadPDF(url: string, outputPath: string): Promise<void> {
 }
 
 function generateUniqueResumeName(initialName: string): string {
-  const uniqueId = uuidv4();
-  return path.join(__dirname, 'data', `${initialName}_${uniqueId}.pdf`);
+  const uniqueId = nanoid(15);
+  return path.join(__dirname, '../metadata', `${initialName}_${uniqueId}.pdf`);
 }
 
 async function atsScorer(
   jdUrl: string,
   resumeUrl: string
 ): Promise<ScoreResult> {
-
   let jdText = '';
   let resumeText = '';
 
   const jdPath = generateUniqueResumeName('jd');
   const resumePath = generateUniqueResumeName('resume');
-  const outdir = path.join(__dirname, 'data');
+  const outdir = path.join(__dirname, '../metadata');
 
   if (jdUrl.startsWith('http')) {
     await Promise.all([
       downloadPDF(jdUrl, jdPath),
-      downloadPDF(resumeUrl, resumePath)
+      downloadPDF(resumeUrl, resumePath),
     ]);
 
     [jdText, resumeText] = await Promise.all([
       parsePdf(jdPath, outdir),
-      parsePdf(resumePath, outdir)
+      parsePdf(resumePath, outdir),
     ]);
   } else {
     jdText = jdUrl;
@@ -94,9 +90,6 @@ async function atsScorer(
 
     resumeText = await parsePdf(resumePath, outdir);
   }
-
-
-
 
   let jdPhrases: string[] = extractPhrases(jdText);
 
@@ -109,14 +102,11 @@ async function atsScorer(
   // Normalize resume phrases
   resumePhrases = resumePhrases.map((phrase) => phrase.toLowerCase());
 
-  const { score, matchedSkills } = calculateScore(
-    jdPhrases,
-    resumePhrases
-  );
+  const { score, matchedSkills } = calculateScore(jdPhrases, resumePhrases);
 
   const formattedScore = score;
 
   return { score: formattedScore };
 }
 
-export { atsScorer };
+export default atsScorer;

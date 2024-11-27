@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { convert } from 'html-to-text';
+import atsScorer from './ats';
 
 export default {
   scrape_tool: {
@@ -18,14 +19,8 @@ export default {
     id: 'ats_score',
     name: 'ats_score',
     description:
-      'This tool ATS scores the given resume based on Job Description',
+      'This tool ATS scores the given Resume based on Job Description. It takes two arguments, JD Text and Resume URL and gives out the score of the resume. Pass the Job Description text as the first argument and the Resume URL as the second argument.',
     type: 'function',
-    func: async (resume: string, jobDescription: string) => {
-      const response = await axios.post('https://api.ats.com/score', {
-        resume,
-        jobDescription,
-      });
-      return response.data;
-    },
+    func: atsScorer,
   },
 };

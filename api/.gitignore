@@ -2,3 +2,6 @@ node_modules
 build
 .env
 DevFest24
+metadata/
+eng.traineddata
+package-lock.json
