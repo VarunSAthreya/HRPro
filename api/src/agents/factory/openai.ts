@@ -43,7 +43,7 @@ class OpenAIAgent extends AgentBase {
     console.log('response', response);
     console.log('this.threadId', this.threadId);
     if (this.threadId) {
-      const messages = [...config.data.messages, response.delta];
+      const messages = [...config.data.messages, response.message];
       await ThreadModel.findOneAndUpdate({ slug: this.threadId }, { messages });
     }
     return response;
@@ -91,7 +91,7 @@ class OpenAIAgent extends AgentBase {
       if (this.threadId) {
         const messages = [
           ...config.data.messages,
-          { role: 'system', content: finalMessage },
+          { role: 'assistant', content: finalMessage },
         ];
         ThreadModel.findOneAndUpdate({ slug: this.threadId }, { messages });
       }
