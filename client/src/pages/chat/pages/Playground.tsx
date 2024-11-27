@@ -7,14 +7,16 @@ import ChatHeader from "./ChatHeader";
 import { Textarea } from "@/components/ui/textarea"
 import { SendHorizontalIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast"
 
 const Playground = () => {
   const params = useParams<{ agent_id: string }>();
+  const { toast } = useToast();
 
   const [messages, setMessages] = useState<AgentMessage[]>([]);
   const [status, setStatus] = useState<string>("");
   const [prompt, setPrompt] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  // const [error, setError] = useState<string>("");
   const [isDataLoading, setIsDataLoading] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const messageEndRef = useRef<HTMLDivElement>(null);
@@ -136,7 +138,10 @@ const Playground = () => {
       ]);
     } catch (error) {
       console.error("Error:", error);
-      setError(error as string);
+      toast({
+        title: "Encountered an error",
+        description: `${error}`
+      })
     } finally {
       setIsDataLoading(false);
       setStatus("");
