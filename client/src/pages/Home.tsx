@@ -42,17 +42,23 @@ const Home = () => {
       )
     :
       (<>
-      <p className="acquisition-heading">Talent Aquisition</p>
-      <Modal className={"self-end"} />
-      {error ? (
-        <div className="error">{error}</div>
-      ) : (
-        <div className="flex items-center justify-left flex-wrap py-6 gap-[21px] thread-list">
-          {threads.map((thread: any) => (
-            <ThreadCard key={thread.id} thread={thread} />
-          ))}
+        <div className="flex flex-col h-full">
+          <div className="flex-none flex justify-between items-center">
+            <p className="acquisition-heading">Talent Acquisition</p>
+            <Modal className="ml-auto" />
+          </div>
+          <div className="flex-grow">
+            {error ? (
+              <div className="error">{error}</div>
+            ) : (
+              <div className="flex justify-start flex-wrap py-6 gap-[21px] thread-list">
+                {threads.map((thread: any) => (
+                  <ThreadCard key={thread.id} thread={thread} />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      )}
       </>)}
     </PageLayout>
   );
