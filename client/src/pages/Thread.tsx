@@ -1,16 +1,14 @@
-import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea"
-import { PaperclipIcon, SendHorizontalIcon } from "lucide-react";
+import { SendHorizontalIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import MessageBox from "../components/MessageBox";
 import ChatHeader from "./chat/pages/ChatHeader";
 import styles from "./chat/pages/Playground.module.css";
 
 function Thread() {
   
-  const lastDivRef = useRef(null);
+  const lastDivRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState("");
 
   const handleSend = (e: any) => {

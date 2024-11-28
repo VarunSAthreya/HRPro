@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./Playground.module.css";
 import sendicon from "../../../public/images/sendicon.jpg";
 import { Button } from "@/components/ui/button"

@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import Container from "./Container";
 import { Button } from "./ui/button";
 
-function PageLayout({ className = "", children }) {
+function PageLayout(props: { className?: string; children: React.ReactNode }) {
   const [showSidebar, setShowSidebar] = useState(true);
   return (
     <div className="flex flex-nowrap h-screen overflow-hidden">
@@ -45,7 +45,7 @@ function PageLayout({ className = "", children }) {
         </div>
       )}
 
-      <Container>{children}</Container>
+      <Container>{props.children}</Container>
     </div>
   );
 }
