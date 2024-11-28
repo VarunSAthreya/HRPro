@@ -11,7 +11,6 @@ import parsePdf from './utils/pdfParser';
 
 interface ScoreResult {
   score: number;
-  matchedSkills: string;
 }
 
 function getGoogleDriveDirectDownloadLink(sharingUrl: string): string {
@@ -109,7 +108,6 @@ async function atsScorer(
 
   return {
     score: formattedScore,
-    matchedSkills: JSON.stringify(matchedSkills),
   };
 }
 

@@ -26,7 +26,6 @@ const Home = () => {
     fetchThreads();
   }, []);
 
-  console.log(threads);
 
   return (
     <PageLayout>
