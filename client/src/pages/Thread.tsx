@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea"
-import {  SendHorizontalIcon } from "lucide-react";
+import { SendHorizontalIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import MessageBox from "../components/MessageBox";
 import ChatHeader from "./chat/pages/ChatHeader";
@@ -15,8 +15,8 @@ function Thread() {
   const [messages, setMessages] = useState<any>([]);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleSend = async (e: any) => {
-    e.preventDefault();
+  const handleSend = async (e?: any) => {
+    if(e)e.preventDefault();
 
     const userMessage = {
       messages: [
@@ -27,7 +27,7 @@ function Thread() {
       ],
       stream: true,
     };
-    setQuery(""); 
+    setQuery("");
 
     setMessages((prev: any) => [...prev, userMessage.messages[0]]);
 
@@ -59,22 +59,22 @@ function Thread() {
 
       while (true) {
         const { value, done } = await reader.read();
-        if (done) break; 
+        if (done) break;
 
         try {
-          const parsedValue = JSON.parse(value); 
+          const parsedValue = JSON.parse(value);
           if (parsedValue.type !== "status") {
             result += parsedValue.data;
           }
         } catch (e) {
-          
+
           result += value;
         }
 
         assistantMessage.content = result;
         setMessages((prev: any) => {
           const updatedMessages = [...prev];
-          updatedMessages[updatedMessages.length - 1] = { ...assistantMessage }; 
+          updatedMessages[updatedMessages.length - 1] = { ...assistantMessage };
           return updatedMessages;
         });
       }
@@ -96,7 +96,7 @@ function Thread() {
         );
         const thread = await response.json();
         setThreadData(thread.data);
-        setMessages(thread.data.messages || []); 
+        setMessages(thread.data.messages || []);
       } catch (error) {
         console.error("Failed to fetch thread:", error);
       }
@@ -110,6 +110,13 @@ function Thread() {
       lastDivRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -126,12 +133,14 @@ function Thread() {
           className={styles.textbox}
           style={{ height: `36px` }}
           onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
         <Button
           onClick={handleSend}
           variant={"ghost"}
           className="flex items-center justify-center w-12 h-12 rounded-full"
           disabled={isProcessing}
+
         >
           <SendHorizontalIcon size={32} />
         </Button>
