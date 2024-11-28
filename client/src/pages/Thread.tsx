@@ -2,10 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea"
 import {  SendHorizontalIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
 import MessageBox from "../components/MessageBox";
 import ChatHeader from "./chat/pages/ChatHeader";
 import styles from "./chat/pages/Playground.module.css";
+import { useParams } from "react-router-dom";
 
 function Thread() {
   const threadId = useParams().id;

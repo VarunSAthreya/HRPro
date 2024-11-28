@@ -1,7 +1,7 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import ReactMarkdown from "react-markdown";
 import styles from "./Playground.module.css";
-import { AgentMessage } from "../../../client/src/pages/chat/utils/constants";
+import { AgentMessage } from "../utils/constants";
 import {
   Avatar,
   AvatarFallback,

@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import { nanoid } from 'nanoid';
 import ollama from 'ollama';
 import AgentFactory from '../agents/factory';
+import { execute } from '../agents/ragAgent';
 import { EMBED_MODEL } from '../env';
 import AppError from '../helper/AppError';
 import { Agent } from '../models';
@@ -200,4 +201,30 @@ export const executeAgent = async (
     req: null,
     res: null,
   });
+};
+
+export const ragAgent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { messages } = req.body;
+    const content = messages
+      .map((message: any) => message.content)
+      .join('\n\n');
+
+    res.status(200).json({
+      message: 'RAG Agent executed successfully!',
+      data: await execute(content),
+    });
+  } catch (err: any) {
+    next(
+      new AppError({
+        message: err.message || 'Server error occurred!',
+        statusCode: err.statusCode || 400,
+        stack: err.stack || '',
+      })
+    );
+  }
 };

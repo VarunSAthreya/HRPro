@@ -5,6 +5,7 @@ import {
   getAgentById,
   getAllAgents,
   ingestData,
+  ragAgent,
   updateAgent,
 } from '../controllers/agent.controller';
 import {
@@ -27,6 +28,6 @@ router.route('/thread').get(getAllThread).post(createThread);
 router.route('/thread/:thread_id').post(executeThread);
 router.route('/thread/:thread_id').get(getThreadById);
 
-// router.route('/rag/agent/:agent_id').post(ragAgent);
+router.route('/rag/agent').post(ragAgent);
 
 export default router;

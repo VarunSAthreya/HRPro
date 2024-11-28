@@ -1,6 +1,7 @@
 import axios from 'axios';
 import fs from 'fs';
 import { OPENAI_API_KEY } from '../env';
+// import { ingestData } from '../agents/ragAgent';
 
 const rejectionEmail = fs.readFileSync(
   './src/seeding/rejection_email.txt',
@@ -229,3 +230,6 @@ Promise.all([
     console.log('Classifier Agent created:', classifier.data.id);
   });
 });
+
+// const rag = fs.readFileSync('./src/seeding/rag.txt', 'utf-8');
+// ingestData(rag);

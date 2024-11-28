@@ -1,6 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import OnboardingScreen from "./pages/OnboardingScreen";
 import Thread from "./pages/Thread";
 import Playground from "./pages/chat/pages/Playground";
 import OnBoarding from "./pages/chat/pages/Onboarding";

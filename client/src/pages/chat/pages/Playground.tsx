@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+// import { useParams } from "react-router-dom";
 import { AgentMessage } from "../../../pages/chat/utils/constants";
 import Message from "./Message";
 import styles from "./Playground.module.css";
@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast"
 
 const Playground = () => {
-  const params = useParams<{ agent_id: string }>();
+  // const params = useParams<{ agent_id: string }>();
   const { toast } = useToast();
 
   const [messages, setMessages] = useState<AgentMessage[]>([]);
