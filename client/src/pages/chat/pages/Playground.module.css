@@ -197,3 +197,8 @@
     font-size: 18px;
     color: #666;
 }
+
+.onboardingBtn {
+    background-color: #6965db !important;
+    color: #fff;
+}

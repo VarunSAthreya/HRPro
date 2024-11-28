@@ -1,0 +1,18 @@
+.talent-acquisition-homepage {
+    margin: auto;
+}
+
+.talent-acquisition-homepage img {
+    width: 60rem;
+    margin-bottom: 2rem;
+}
+
+.talent-acquisition-homepage .acquisition-homepage-btn {
+    margin: auto;
+    margin-top: 18px;
+}
+
+.acquisition-heading {
+    font-weight: 600;
+    font-size: 24px;
+}

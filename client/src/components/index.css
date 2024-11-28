@@ -1,0 +1,26 @@
+.bg-foreground {
+    background-color: #6965db;
+    max-width: 30vh;
+}
+
+.bg-foreground .inactive-panel-btn {
+    background-color: #6965db !important;
+    color: #fff;
+    box-shadow: none;
+}
+
+.bg-foreground .threads-btn-active,
+.bg-foreground .onboarding-btn-active {
+    color: #6965db;
+    padding: 2rem;
+}
+
+.create-btn,
+.proceed-btn {
+    background-color: #6965db !important;
+    color: #fff;
+}
+
+.thread-card {
+    min-height: 6rem;
+}

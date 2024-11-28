@@ -5,12 +5,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
+import "./index.css";
 
 function ThreadCard({thread}:any) {
   const navigate = useNavigate();
   return (
     <Card
-      className="w-[350px] cursor-pointer my-4"
+      className="w-[350px] cursor-pointer my-4 thread-card"
       onClick={() => navigate(`/thread/${thread.id}`)}
     >
       <CardHeader>

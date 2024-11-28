@@ -2,6 +2,8 @@ import PageLayout from "@/components/PageLayout";
 import ThreadCard from "@/components/ThreadCard";
 import Modal from "../components/Modal";
 import { useEffect, useState } from "react";
+import talentacquisition from "../public/images/talentacquisition.png";
+import './Home.css'
 
 
 
@@ -29,16 +31,29 @@ const Home = () => {
 
   return (
     <PageLayout>
+      {
+      threads.length === 0 ? (
+        <div className={"talent-acquisition-homepage"}>
+        <img src={talentacquisition} alt="talentacquisition-homepage" />
+        <div style={{display:"flex"}}>
+        <Modal className={"self-end acquisition-homepage-btn"} />
+        </div>
+    </div>
+      )
+    :
+      (<>
+      <p className="acquisition-heading">Talent Aquisition</p>
       <Modal className={"self-end"} />
       {error ? (
         <div className="error">{error}</div>
       ) : (
-        <div className="flex items-center justify-left flex-wrap py-6 gap-[21px]">
+        <div className="flex items-center justify-left flex-wrap py-6 gap-[21px] thread-list">
           {threads.map((thread: any) => (
             <ThreadCard key={thread.id} thread={thread} />
           ))}
         </div>
       )}
+      </>)}
     </PageLayout>
   );
 };

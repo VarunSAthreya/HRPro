@@ -11,7 +11,7 @@ const OnBoarding = () => {
             <div className={styles.onboarding}>
                 <img src={homepage} alt="homepage" />
                 <Link to="/onboarding/chat">
-                    <Button><MessagesSquare />Start Onboarding</Button>
+                    <Button className={styles.onboardingBtn}><MessagesSquare />Start Onboarding</Button>
                 </Link>
             </div>
         </PageLayout>
