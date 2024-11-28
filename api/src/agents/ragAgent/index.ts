@@ -23,7 +23,7 @@ const llm = (messages: ChatCompletionMessageParam[], json: boolean) => {
 
 export const ingestData = async (text: string) => {
   const chroma = new ChromaClient();
-  await chroma.deleteCollection({ name: 'rag_agent' });
+  //   await chroma.deleteCollection({ name: 'rag_agent' });
   const collection = await chroma.getOrCreateCollection({
     name: 'rag_agent',
     metadata: { 'hnsw:space': 'cosine' },
