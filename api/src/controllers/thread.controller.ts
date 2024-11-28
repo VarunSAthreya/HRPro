@@ -44,12 +44,8 @@ export const getAllThread = async (
 ) => {
   try {
     const { agent_id } = req.query;
-
-    console.log(agent_id);
-
-    const threads = await Thread.find({
-      agent_id,
-    });
+    const query = agent_id ? { agent_id } : {};
+    const threads = await Thread.find(query);
 
     res.status(200).json({
       message: 'Fetched all threads',
