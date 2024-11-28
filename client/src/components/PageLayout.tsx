@@ -1,8 +1,9 @@
-import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { BotMessageSquare, PanelLeftClose, PanelLeftOpen, Send } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import Container from "./Container";
 import { Button } from "./ui/button";
+import './index.css'
 
 function PageLayout(props: { className?: string; children: React.ReactNode }) {
   const [showSidebar, setShowSidebar] = useState(true);
@@ -25,9 +26,9 @@ function PageLayout(props: { className?: string; children: React.ReactNode }) {
               {({ isActive }) => (
                 <Button
                   variant="secondary"
-                  className={`w-full ${isActive ? "font-bold" : ""}`}
+                  className={`w-full ${isActive ? "font-bold threads-btn-active" : "inactive-panel-btn"}`}
                 >
-                  Threads
+                 <BotMessageSquare /> Threads
                 </Button>
               )}
             </NavLink>
@@ -35,9 +36,9 @@ function PageLayout(props: { className?: string; children: React.ReactNode }) {
               {({ isActive }) => (
                 <Button
                   variant="secondary"
-                  className={`w-full ${isActive ? "font-bold" : ""}`}
+                  className={`w-full ${isActive ? "font-bold onboarding-btn-active" : "inactive-panel-btn"}`}
                 >
-                  Onboarding
+                  <Send />Onboarding
                 </Button>
               )}
             </NavLink>

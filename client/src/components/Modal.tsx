@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useNavigate } from "react-router-dom";
 import { PlusIcon } from "lucide-react"
 import { useEffect, useState } from "react";
+import "./index.css"
 
 type FormDataType = {
   title: string;
@@ -74,7 +75,7 @@ function Modal({ className }: any) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className={className}><PlusIcon />Create thread</Button>
+        <Button className={`${className} create-btn`}><PlusIcon />Create thread</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -102,7 +103,7 @@ function Modal({ className }: any) {
           </select>
         </div>
         <DialogFooter>
-          <Button type="submit" onClick={handleSubmit}>
+          <Button type="submit" className="proceed-btn" onClick={handleSubmit}>
             Proceed
           </Button>
         </DialogFooter>
