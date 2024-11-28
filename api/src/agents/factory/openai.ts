@@ -11,7 +11,6 @@ import { AgentMessage } from '../../types';
 import { automateHTTP, handlePromise } from '../../utils';
 import { AgentBase, IAgentExecute } from './base';
 
-// TODO: Implement streaming response
 class OpenAIAgent extends AgentBase {
   stream = false;
 
@@ -40,8 +39,6 @@ class OpenAIAgent extends AgentBase {
       throw new Error(data);
     }
     const response = data.choices[0];
-    console.log('response', response);
-    console.log('this.threadId', this.threadId);
     if (this.threadId) {
       const messages = [...config.data.messages, response.message];
       await ThreadModel.findOneAndUpdate({ slug: this.threadId }, { messages });

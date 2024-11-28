@@ -159,7 +159,7 @@ Always maintain a neutral, factual tone and base conclusions on current market d
 
 const atsAgent = {
   title: 'ATS Scoring Agent',
-  description: `This is a helpful agent which scores the given Resume based on Job Description. It takes two arguments, JD Text and Resume URL and gives out the score of the resume. Pass the Job Description text as the first argument and the Resume URL as the second argument. Both the JD text and Resume URL should be passed as a json {"job_description": "your job description", "name":"name", "email": "you@example.com", "resumeUrl":"https://resume.com"}.`,
+  description: `This is a helpful agent which scores the given Resume based on Job Description. It takes two arguments, JD Text and Resume URL and gives out the score of the resume. Pass the Job Description text as the first argument and the Resume URL as the second argument. Both the JD text and Resume URL should be passed as a json "{\"job_description\": \"your job description\", \"name\":\"name\", \"email\": \"you@example.com\", \"resumeUrl\":\"https://resume.com\"}".`,
   provider: 'openai',
   model: 'gpt-4o',
   role_setting: `

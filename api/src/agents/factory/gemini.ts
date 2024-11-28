@@ -8,25 +8,22 @@ import {
   GeminiResponseTypeMap,
   GeminiRoleMap,
 } from '../../models/Agent.model';
+import ThreadModel from '../../models/Thread.model';
 import Tools from '../../tools';
 import { AgentMessage } from '../../types';
 import { automateHTTP, handlePromise } from '../../utils';
 import { AgentBase, IAgentExecute } from './base';
 
-// TODO: Implement saving the thread messages to the database and streaming response
 class GeminiAgent extends AgentBase {
   stream = false;
 
   generativeModel: GenerativeModel;
 
-  async handleStreamResponse(config: any, res: Response): Promise<void> {
-    if (this.agent.abilities.length === 0) {
-      res.writeHead(200, {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        Connection: 'keep-alive',
-      });
-    }
+  async handleStreamResponse(
+    config: any,
+    res: Response,
+    messages: AgentMessage[]
+  ): Promise<void> {
     res.write(
       JSON.stringify({
         type: 'status',
@@ -37,15 +34,28 @@ class GeminiAgent extends AgentBase {
     const streamingResult = await this.generativeModel.generateContentStream(
       config
     );
+    let finalMessage = '';
 
     for await (const item of streamingResult.stream) {
-      res.write(
-        item.candidates[0].content.parts
-          ? item.candidates[0].content.parts[0].text
-          : ''
-      );
+      const message = item.candidates[0].content.parts[0].text;
+      finalMessage += message;
+      res.write(message);
     }
     res.end();
+    if (this.threadId) {
+      await ThreadModel.findOneAndUpdate(
+        { slug: this.threadId },
+        {
+          messages: [
+            ...messages,
+            {
+              role: 'assistant',
+              content: finalMessage,
+            },
+          ],
+        }
+      );
+    }
   }
 
   async execute(params: IAgentExecute): Promise<any> {
@@ -54,7 +64,7 @@ class GeminiAgent extends AgentBase {
     const { messages, stream, req, res } = params;
     this.stream = stream;
 
-    const serviceAccount = JSON.parse(this.agent.auth);
+    const serviceAccount = JSON.parse(JSON.parse(this.agent.auth));
 
     const vertexAI = new VertexAI({
       project: serviceAccount.project_id,
@@ -82,14 +92,26 @@ class GeminiAgent extends AgentBase {
       : preparedMessages;
 
     if (stream) {
-      return this.handleStreamResponse({ contents: data }, res); // Streaming response: playground
+      return this.handleStreamResponse({ contents: data }, res, messages); // Streaming response: playground
     }
     if (res) {
-      return res.send(
-        await this.generativeModel.generateContent({
-          contents: data,
-        }) // JSON response: Automation
-      );
+      const response = await this.generativeModel.generateContent({
+        contents: data,
+      });
+      if (this.threadId) {
+        const finalMessage = [
+          ...messages,
+          {
+            role: 'assistant',
+            content: response.response.candidates[0].content.parts[0].text,
+          },
+        ];
+        await ThreadModel.findOneAndUpdate(
+          { slug: this.threadId },
+          { messages: finalMessage }
+        );
+      }
+      return res.send(response); // JSON response: Automation
     }
     return this.generativeModel.generateContent({ contents: data }); // JSON response: Ability
   }
@@ -167,11 +189,6 @@ class GeminiAgent extends AgentBase {
     console.dir(initialData, { depth: null });
 
     if (this.stream) {
-      res.writeHead(200, {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        Connection: 'keep-alive',
-      });
       res.write(
         JSON.stringify({
           type: 'status',

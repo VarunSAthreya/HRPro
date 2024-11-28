@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { convert } from 'html-to-text';
+import { nanoid } from 'nanoid';
+import atsScorer from './ats';
 
 export default {
   scrape_tool: {
@@ -20,10 +22,7 @@ export default {
     description:
       'This tool ATS scores the given Resume based on Job Description. It takes two arguments, JD Text and Resume URL and gives out the score of the resume. Pass the Job Description text as the first argument and the Resume URL as the second argument.',
     type: 'function',
-    // func: atsScorer,
-    func: async (jdUrl: string, resumeUrl: string) => {
-      return { score: '10.2' };
-    },
+    func: atsScorer,
   },
   zoom_link: {
     id: 'zoom_link',
@@ -39,10 +38,10 @@ export default {
     id: 'publish_job',
     name: 'Publish to Job Board',
     description:
-      'This tool accepts the job details and publishes it to the job boards.',
+      'This tool accepts the job description and publishes it to the job boards.',
     type: 'function',
     func: (job_description: any) => {
-      return { job_id: '1234' };
+      return { job_id: nanoid(10) };
     },
   },
 };
