@@ -224,6 +224,7 @@ export const ragAgent = async (
 
     res.end();
   } catch (err: any) {
+    res.end();
     next(
       new AppError({
         message: err.message || 'Server error occurred!',

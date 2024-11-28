@@ -1,0 +1,8 @@
+RAG AGENT:
+Routing: Adaptive RAG(Route questions to different retrieval approaches) - https://arxiv.org/abs/2403.14403
+Fallback: Corrective RAG(Fallback to web search if docs are not relevant to query) - https://arxiv.org/abs/2401.15884
+Self-correction: Self-RAG(Fix answers w/ hallucinations or don’t address question) - https://arxiv.org/abs/2310.11511
+
+Talent Acquisition:
+ReACT architecture: https://arxiv.org/abs/2210.03629
+Multi Agent architectures: https://arxiv.org/pdf/2404.11584

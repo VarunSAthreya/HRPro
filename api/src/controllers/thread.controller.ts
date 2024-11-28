@@ -133,6 +133,7 @@ export const executeThread = async (
     //   data: thread,
     // });
   } catch (err: any) {
+    res.end();
     next(
       new AppError({
         message: err.message || 'Server error occurred!',
