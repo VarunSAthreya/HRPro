@@ -96,6 +96,7 @@ India Internal Job Movement Policy
 Relocation Policy
 Pay, Hours, And Leaves
 Volunteer Policy
+Benefits and Perks
 Travel and Expense Policy
 Voluntary Global Relocation Guidelines
 Marriage and Childbirth Gift Card Policy
@@ -229,7 +230,7 @@ async function web_search(question: string, docs: string[]) {
   });
 
   let web_results = search.data.organic_results;
-  console.dir(web_results, { depth: null });
+  //   console.dir(web_results, { depth: null });
   docs.push(JSON.stringify(web_results));
   return { documents: docs };
 }
@@ -344,7 +345,8 @@ export const execute = async (question: string): Promise<string> => {
   const route = await route_question(question);
   console.log(route);
 
-  async function doWebSearch(docs = []) {
+  async function doWebSearch() {
+    const docs = [];
     const res = await llm(
       [
         { content: web_search_instructions, role: 'system' },
@@ -375,6 +377,9 @@ export const execute = async (question: string): Promise<string> => {
         // console.log(generation.generation.choices[0].message.content);
         return generation.generation.choices[0].message.content;
       } else if (grade == 'not useful') {
+        if (i == maxRetries - 1) {
+          return "I'm sorry, I don't have an answer for that.";
+        }
         continue;
       } else if (grade == 'not supported') {
         return "I'm sorry, I don't have an answer for that.";
@@ -383,7 +388,7 @@ export const execute = async (question: string): Promise<string> => {
   }
 
   if (route == 'websearch') {
-    doWebSearch();
+    return await doWebSearch();
   } else if (route == 'vectorstore') {
     const docs = await retrieve(question);
     // console.log(docs);
@@ -412,7 +417,7 @@ export const execute = async (question: string): Promise<string> => {
         // console.log(generation.generation.choices[0].message.content);
         return generation.generation.choices[0].message.content;
       } else if (grade == 'not useful') {
-        return doWebSearch();
+        return await doWebSearch();
       } else if (grade == 'not supported') {
         // console.log('Not supported');
         return "I'm sorry, I don't have an answer for that.";
