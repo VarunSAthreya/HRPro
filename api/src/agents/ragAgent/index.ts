@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ChromaClient } from 'chromadb';
+import { Response } from 'express';
 import { nanoid } from 'nanoid';
 import Ollama from 'ollama';
 import OpenAI from 'openai';
@@ -19,6 +20,27 @@ const llm = (messages: ChatCompletionMessageParam[], json: boolean) => {
     temperature: 0,
     response_format: { type: json ? 'json_object' : 'text' },
   });
+};
+
+const streamResponse = async (response: string, res: Response) => {
+  const stream = await client.chat.completions.create({
+    model: 'gpt-4o',
+    messages: [
+      {
+        role: 'system',
+        content:
+          'You are a dummy agent just repeat the response and DONT CHANGE ANYTHING',
+      },
+      { role: 'user', content: response },
+    ],
+    stream: true,
+  });
+  console.log('------- STREAMING RESPONSE -------');
+  for await (const chunk of stream) {
+    const message = chunk.choices[0]?.delta?.content || '';
+    console.log(message);
+    res.write(message);
+  }
 };
 
 export const ingestData = async (text: string) => {
@@ -340,23 +362,23 @@ Return JSON with two keys, binary_score is 'yes' or 'no' score to indicate wheth
   }
 }
 
-export const execute = async (question: string): Promise<string> => {
+export const execute = async (question: string, res: Response) => {
   const maxRetries = 3;
   const route = await route_question(question);
   console.log(route);
 
-  async function doWebSearch() {
+  async function doWebSearch(calledFromVectorStore = false) {
     const docs = [];
-    const res = await llm(
+    const response = await llm(
       [
         { content: web_search_instructions, role: 'system' },
         { content: question, role: 'user' },
       ],
       false
     );
-    const query = res.choices[0].message.content;
+    const query = response.choices[0].message.content;
     // console.log('----------------------------------->', query);
-
+    let result = '';
     for (let i = 0; i < maxRetries; i++) {
       const web_search_results = await web_search(query, docs);
       //   console.log(web_search_results);
@@ -375,21 +397,30 @@ export const execute = async (question: string): Promise<string> => {
 
       if (grade == 'useful' || grade == 'max retries') {
         // console.log(generation.generation.choices[0].message.content);
-        return generation.generation.choices[0].message.content;
+        result = generation.generation.choices[0].message.content;
+        break;
       } else if (grade == 'not useful') {
         if (i == maxRetries - 1) {
-          return "I'm sorry, I don't have an answer for that.";
+          result = "I'm sorry, I don't have an answer for that.";
+          break;
         }
         continue;
       } else if (grade == 'not supported') {
-        return "I'm sorry, I don't have an answer for that.";
+        result = "I'm sorry, I don't have an answer for that.";
       }
+    }
+    if (calledFromVectorStore) {
+      return result;
+    } else {
+      await streamResponse(result, res);
     }
   }
 
   if (route == 'websearch') {
-    return await doWebSearch();
+    await doWebSearch();
   } else if (route == 'vectorstore') {
+    let result = '';
+
     const docs = await retrieve(question);
     // console.log(docs);
     const grade_docs = await grade_documents(
@@ -399,7 +430,7 @@ export const execute = async (question: string): Promise<string> => {
     // console.log(grade_docs);
     //
     if (grade_docs.web_search == 'Yes') {
-      doWebSearch();
+      result = await doWebSearch(true);
     } else {
       const generation = await generate(question, docs.documents, 0);
       //   console.log(generation);
@@ -415,13 +446,15 @@ export const execute = async (question: string): Promise<string> => {
 
       if (grade == 'useful' || grade == 'max retries') {
         // console.log(generation.generation.choices[0].message.content);
-        return generation.generation.choices[0].message.content;
+        result = generation.generation.choices[0].message.content;
       } else if (grade == 'not useful') {
-        return await doWebSearch();
+        // return await doWebSearch()
+        result = await doWebSearch(true);
       } else if (grade == 'not supported') {
         // console.log('Not supported');
-        return "I'm sorry, I don't have an answer for that.";
+        result = "I'm sorry, I don't have an answer for that.";
       }
     }
+    await streamResponse(result, res);
   }
 };

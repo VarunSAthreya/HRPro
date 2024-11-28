@@ -214,11 +214,15 @@ export const ragAgent = async (
       .map((message: any) => message.content)
       .join('\n\n');
 
-    const result = await execute(content);
-    res.status(200).json({
-      message: 'RAG Agent executed successfully!',
-      data: result,
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive',
     });
+
+    await execute(content, res);
+
+    res.end();
   } catch (err: any) {
     next(
       new AppError({
