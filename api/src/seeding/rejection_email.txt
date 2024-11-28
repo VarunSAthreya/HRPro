@@ -41,11 +41,10 @@
     <p>Please know that this decision was not an easy one, as we were impressed by your qualifications and the effort you put into the process. We encourage you to apply for other opportunities that align with your expertise in the future.</p>
     <p>Once again, thank you for your interest in joining [Company Name], and we wish you the very best in your career journey.</p>
     <p>Best regards,</p>
-    <p>[Your Name] <br>
-    [Your Job Title] <br>
-    [Company Name]</p>
+    <p>Contentstack recruiter<br>
+    Contetntstack</p>
     <div class="footer">
-      <p>If you have any questions or would like feedback on your application, feel free to reach out to us at [Your Email Address].</p>
+      <p>If you have any questions or would like feedback on your application, feel free to reach out to us at talentacquisition@contentstack.com .</p>
     </div>
   </div>
 </body>

@@ -60,12 +60,8 @@
     <p>If you have any questions or need further clarification, feel free to reach out to us at [Your Email Address].</p>
     <p>We look forward to working with you and are confident that you will make an excellent addition to our team!</p>
     <p>Warm regards,</p>
-    <p>[Your Name] <br>
-    [Your Job Title] <br>
-    [Company Name]</p>
-    <div class="footer">
-      <p>Note: This offer is valid until [Offer Expiry Date]. Please respond before this date to confirm your acceptance.</p>
-    </div>
+    <p>Contentstack recruiter<br>
+    Contentstack</p>
   </div>
 </body>
 </html>

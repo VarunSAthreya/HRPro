@@ -6,7 +6,7 @@ import { OPENAI_API_KEY } from '../env';
 const rejectionEmail = fs.readFileSync(
   './src/seeding/rejection_email.txt',
   'utf-8'
-);
+)
 const selectedEmail = fs.readFileSync(
   './src/seeding/selected_email.txt',
   'utf-8'
