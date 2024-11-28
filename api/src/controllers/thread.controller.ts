@@ -69,9 +69,7 @@ export const getThreadById = async (
 ) => {
   try {
     const { thread_id } = req.params;
-
     const thread = await Thread.findById(thread_id);
-
     res.status(200).json({
       message: 'Fetch thread by id',
       data: thread,

@@ -12,13 +12,42 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useNavigate } from "react-router-dom";
 import { PlusIcon } from "lucide-react"
+import { useState } from "react";
 
-function Modal({ className }) {
+type FormDataType = {
+  title: string;
+  description: string;
+  agent_id: string;
+}
+
+function Modal({ className }: any) {
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     // handle form submissionn
-    navigate(`/thread/${"sam"}`);
+    const formData: FormDataType = {
+      title,
+      description: desc,
+      agent_id: "79ZlXjdFrNLkyAY"
+    }
+
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/v1/thread`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const res = await response.json();
+    navigate(`/thread/${res.data.id}`);
+
   };
   return (
     <Dialog>
@@ -33,8 +62,8 @@ function Modal({ className }) {
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col items-center justify-center gap-4">
-          <Input id="title" type="text" placeholder="Title" value="" />
-          <Textarea id="desc" placeholder="Description" value="" />
+          <Input id="title" type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <Textarea id="desc" placeholder="Description" value={desc} onChange={(e) => setDesc(e.target.value)} />
         </div>
         <DialogFooter>
           <Button type="submit" onClick={handleSubmit}>

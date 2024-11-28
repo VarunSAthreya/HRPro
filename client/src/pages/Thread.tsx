@@ -2,15 +2,24 @@ import PageLayout from "@/components/PageLayout";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea"
 import { PaperclipIcon, SendHorizontalIcon } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import MessageBox from "../components/MessageBox";
 import ChatHeader from "./chat/pages/ChatHeader";
 import styles from "./chat/pages/Playground.module.css";
 
 function Thread() {
+  
   const lastDivRef = useRef(null);
-  const params = useParams();
+  const [query, setQuery] = useState("");
+
+  const handleSend = (e: any) => {
+    e.preventDefault();
+    console.log(query);
+    setQuery("");
+  };
+
+
   useEffect(() => {
     if (lastDivRef.current) {
       lastDivRef.current.scrollIntoView({ behavior: "smooth" });
@@ -42,12 +51,13 @@ function Thread() {
 
         <Textarea
           placeholder="Enter your query..."
-          value=""
+          value={query}
           className={styles.textbox}
           style={{ height: `36px` }}
+          onChange={(e) => setQuery(e.target.value)}
         />
         <Button
-          onClick={(e) => e.preventDefault()}
+          onClick={handleSend}
           variant={"ghost"}
           className=" flex items-center justify-center w-12 h-12 rounded-full"
         >

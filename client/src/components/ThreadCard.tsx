@@ -6,16 +6,16 @@ import {
 } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 
-function ThreadCard(props) {
+function ThreadCard({thread}:any) {
   const navigate = useNavigate();
   return (
     <Card
       className="w-[350px] cursor-pointer my-4"
-      onClick={() => navigate(`/thread/${props.id}`)}
+      onClick={() => navigate(`/thread/${thread.id}`)}
     >
       <CardHeader>
-        <CardTitle>SDE II</CardTitle>
-        <CardDescription>Deploy your new project in one-click.</CardDescription>
+        <CardTitle>{thread.title}</CardTitle>
+        <CardDescription>{thread.description}</CardDescription>
       </CardHeader>
     </Card>
   );

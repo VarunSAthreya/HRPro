@@ -2,8 +2,10 @@ import { CorsOptions } from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 import router from './routes';
+import cors from 'cors';
 
 const app = express();
+app.use(cors());
 const corsOptions: CorsOptions = {
   origin: '*',
   methods: 'GET,POST,PUT,DELETE',

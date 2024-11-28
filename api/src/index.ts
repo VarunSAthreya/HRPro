@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import { MONGO_URL, PORT } from './env';
-
 import server from './server';
 
 (async function () {
