@@ -1,11 +1,10 @@
 import axios from 'axios';
 import { ChromaClient } from 'chromadb';
-import { readFile } from 'fs/promises';
 import { nanoid } from 'nanoid';
 import Ollama from 'ollama';
 import OpenAI from 'openai';
 import { ChatCompletionMessageParam } from 'openai/resources';
-import { EMBED_MODEL, OPENAI_API_KEY } from '../../env';
+import { EMBED_MODEL, OPENAI_API_KEY, SERPSTACK_API_KEY } from '../../env';
 import { chunkTextBySentences } from '../../utils';
 
 const llm_model = 'gpt-4o';
@@ -22,14 +21,13 @@ const llm = (messages: ChatCompletionMessageParam[], json: boolean) => {
   });
 };
 
-export const ingestData = async () => {
+export const ingestData = async (text: string) => {
   const chroma = new ChromaClient();
   await chroma.deleteCollection({ name: 'rag_agent' });
   const collection = await chroma.getOrCreateCollection({
     name: 'rag_agent',
     metadata: { 'hnsw:space': 'cosine' },
   });
-  const text = await readFile('data.txt', 'utf-8');
   const chunks = chunkTextBySentences(text, 10, 3);
 
   for await (const [_, chunk] of chunks.entries()) {
@@ -160,29 +158,6 @@ Explain your reasoning in a step-by-step manner to ensure your reasoning and con
 
 Avoid simply stating the correct answer at the outset.`;
 
-// const answer_grader_instructions = `
-// You are a document relevance assessment system. Your task is to analyze documents and evaluate their relevance to a given query.
-
-// For each document, you should:
-// 1. Carefully assess if the content meaningfully relates to the query context
-// 2. Evaluate the factual relevance of the information
-// 3. Consider if the document contains information that could help answer the query
-// 4. Determine if there are any semantic mismatches despite keyword overlap
-
-// Rate documents on a scale of 1-10 where:
-// - 8-10: Highly relevant, directly addresses the query
-// - 5-7: Moderately relevant, contains some useful information
-// - 1-4: Low relevance, minimal useful information
-// - 0: Completely irrelevant or off-topic
-
-// Output format:
-// {relevance Score: [0-10]
-// reasoning: Brief explanation of the score
-// binary_score: [Yes/No]}
-
-// Be strict in your evaluation. It's better to reject borderline documents than include irrelevant content. Focus on semantic relevance rather than just keyword matches.
-// `;
-
 async function retrieve(query: string) {
   const results = await retriever(query);
   return { documents: results };
@@ -248,21 +223,11 @@ const grade_documents = async (question: string, docs: string[]) => {
 };
 
 async function web_search(question: string, docs: string[]) {
-  //   const search = await axios({
-  //     url: `https://api.tavily.com/search`,
-  //     method: 'POST',
-  //     data: {
-  //       query: question,
-  //       api_key: process.env.TAVILY_API_KEY,
-  //     },
-  //   });
-
   const search = await axios({
-    url: `http://api.serpstack.com/search?query=${question}&access_key=${process.env.SERPSTACK_API_KEY}`,
+    url: `http://api.serpstack.com/search?query=${question}&access_key=${SERPSTACK_API_KEY}`,
     method: 'GET',
   });
 
-  //   let web_results = search.data.results;
   let web_results = search.data.organic_results;
   console.dir(web_results, { depth: null });
   docs.push(JSON.stringify(web_results));
@@ -292,19 +257,16 @@ async function route_question(question: string) {
 
 function decide_to_generate(web_search: string) {
   console.log('---ASSESS GRADED DOCUMENTS---');
-  // question = state['question'];
-  // web_search = state['web_search'];
-  // filtered_documents = state['documents'];
 
   if (web_search == 'Yes') {
-    // # All documents have been filtered check_relevance
-    // # We will re-generate a new query
+    // All documents have been filtered check_relevance
+    // We will re-generate a new query
     console.log(
       '---DECISION: NOT ALL DOCUMENTS ARE RELEVANT TO QUESTION, INCLUDE WEB SEARCH---'
     );
     return 'websearch';
   } else {
-    // # We have relevant documents, so generate answer
+    // We have relevant documents, so generate answer
     console.log('---DECISION: GENERATE---');
     return 'generate';
   }

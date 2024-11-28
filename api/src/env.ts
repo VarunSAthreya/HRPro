@@ -12,6 +12,7 @@ export const {
   LLAMA_MODEL,
   ZOOM_LINK,
   OPENAI_API_KEY,
+  SERPSTACK_API_KEY,
 } = parseEnv(process.env, {
   MONGO_URL: {
     schema: z.string().url().default('mongodb://localhost:27017/devfest'),
@@ -26,4 +27,5 @@ export const {
   LLAMA_MODEL: z.string().default('llama3.2'),
   ZOOM_LINK: z.string().default('https://zoom.us/j/1234567890'),
   OPENAI_API_KEY: z.string(),
+  SERPSTACK_API_KEY: z.string(),
 });
