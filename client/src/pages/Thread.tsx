@@ -120,12 +120,13 @@ function Thread() {
 
   return (
     <div className={styles.container}>
-      <ChatHeader heading="Talent Acquisition" route="" />
+      {threadData && <ChatHeader heading={threadData.title} route="" />}
+      
       <div className="w-full h-[85vh] rounded-xl border-border border-1 relative flex flex-col overflow-y-scroll">
         <MessageBox messages={messages} />
         <div ref={lastDivRef}></div>
       </div>
-      {isProcessing && <p className="text-sm text-gray-500">Processing...</p>}
+      {isProcessing && <p className="text-sm text-gray-500 ml-6">Processing...</p>}
       <div className={styles["textbox-container"]} style={{ paddingTop: "0.5rem" }}>
         <Textarea
           placeholder="Enter your query..."
