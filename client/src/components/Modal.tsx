@@ -30,7 +30,7 @@ function Modal({ className }: any) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [agents, setAgents] = useState<Agent[] | undefined>(undefined);
-  const [selectedAgent, setSelectedAgent] = useState("");
+  const [selectedAgent, setSelectedAgent] = useState<string>("");
 
   const navigate = useNavigate();
   const handleSubmit = async (e: any) => {
@@ -67,6 +67,9 @@ function Modal({ className }: any) {
 
       const res = await response.json();
       setAgents(res.data);
+      res.data.forEach((agent: any) => {
+        agent.title === "Talent Aquisition Agent" && setSelectedAgent(agent.id);
+       });
      }
 
     getAgents()

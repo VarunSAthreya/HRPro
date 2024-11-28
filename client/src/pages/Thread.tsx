@@ -132,9 +132,10 @@ function Thread() {
           placeholder="Enter your query..."
           value={query}
           className={styles.textbox}
-          style={{ height: `36px` }}
+          style={{ padding: "1rem" }}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
+          rows={2}
         />
         <Button
           onClick={handleSend}

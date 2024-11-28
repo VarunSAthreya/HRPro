@@ -66,44 +66,75 @@ const Playground = () => {
           content: prompt,
         },
       ],
-      stream: false,
-    };;
+      stream: true, // Enable streaming
+    };
+
     setIsDataLoading(true);
     setPrompt("");
     setMessages((prev: any) => [...prev, userMessage.messages[0]]);
 
     try {
       setStatus("running");
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/v1/rag/agent`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userMessage),
-      })
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_API_URL}/v1/rag/agent`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userMessage),
+        }
+      );
 
       if (!response.body || response.status !== 200) {
         throw new Error("Error during fetch");
       }
 
-      const res = await response.json();
-      const assistantMessage = {
-        role: "assistant",
-        content: res.data,
-      };
+      const reader = response.body
+        .pipeThrough(new TextDecoderStream())
+        .getReader();
+
+      let assistantMessage = { role: "assistant", content: "" };
+      let result = "";
+
       setMessages((prev: any) => [...prev, assistantMessage]);
 
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        try {
+          const parsedValue = JSON.parse(value);
+          if (parsedValue.type !== "status") {
+            result += parsedValue.data;
+          }
+        } catch (e) {
+          result += value; 
+        }
+
+        assistantMessage.content = result;
+        setMessages((prev: any) => {
+          const updatedMessages = [...prev];
+          updatedMessages[updatedMessages.length - 1] = { ...assistantMessage };
+          return updatedMessages;
+        });
+      }
     } catch (error) {
       console.error("Error:", error);
+      setMessages((prev: any) => [
+        ...prev,
+        { role: "system", content: "Failed to fetch response. Please try again." },
+      ]);
       toast({
         title: "Encountered an error",
-        description: `${error}`
-      })
+        description: `${error}`,
+      });
     } finally {
       setIsDataLoading(false);
       setStatus("");
     }
   };
+
 
   return (
     <div className={styles.container}>
@@ -136,12 +167,12 @@ const Playground = () => {
           ref={textareaRef}
           placeholder="Type your message here..."
           className={styles.textbox}
-          style={{ height: `${height}px !important` }}
+          style={{ height: `${height}px !important`, padding: "1rem" }}
           onChange={(e) => {
             setHeight(e.target.scrollHeight);
             setPrompt(e.target.value);
           }}
-          rows={1}
+          rows={2}
           value={prompt}
           disabled={isDataLoading}
           onKeyDown={handleKeyDown}
