@@ -14,7 +14,13 @@ const Home = () => {
   useEffect(() => {
     const fetchThreads = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/v1/thread`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/v1/thread`, {
+          method: 'GET',
+          headers: {
+            'ngrok-skip-browser-warning': 'true',
+            'User-Agent': 'MyCustomUserAgent'
+          }
+        });
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

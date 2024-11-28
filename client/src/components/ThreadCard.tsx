@@ -16,14 +16,26 @@ function ThreadCard({ thread }: any) {
     const fetchThreadDetail = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_API_URL}/v1/thread/${thread.id}`
+          `${import.meta.env.VITE_BACKEND_API_URL}/v1/thread/${thread.id}`, {
+            method: 'GET',
+            headers: {
+              'ngrok-skip-browser-warning': 'true',
+              'User-Agent': 'MyCustomUserAgent'
+            }
+          }
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const res = await response.json();
-        
-        const responseAgent = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/v1/agent/${res.data.agent_id}`);
+
+        const responseAgent = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/v1/agent/${res.data.agent_id}`, {
+          method: 'GET',
+          headers: {
+            'ngrok-skip-browser-warning': 'true',
+            'User-Agent': 'MyCustomUserAgent'
+          }
+        });
         if (!responseAgent.ok) {
           throw new Error(`HTTP error! status: ${responseAgent.status}`);
         }

@@ -81,6 +81,9 @@ const Playground = () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            'ngrok-skip-browser-warning': 'true',
+            // You can also add a custom User-Agent here
+            'User-Agent': 'MyCustomUserAgent'
           },
           body: JSON.stringify(userMessage),
         }

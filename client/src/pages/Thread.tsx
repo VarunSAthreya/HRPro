@@ -39,6 +39,9 @@ function Thread() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            'ngrok-skip-browser-warning': 'true',
+            // You can also add a custom User-Agent here
+            'User-Agent': 'MyCustomUserAgent'
           },
           body: JSON.stringify(userMessage),
         }
@@ -92,7 +95,15 @@ function Thread() {
     const fetchThread = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BACKEND_API_URL}/v1/thread/${threadId}`
+          `${import.meta.env.VITE_BACKEND_API_URL}/v1/thread/${threadId}`,
+          {
+            method: 'GET',
+            headers: {
+              'ngrok-skip-browser-warning': 'true',
+              // You can also add a custom User-Agent here
+              'User-Agent': 'MyCustomUserAgent'
+            }
+          }
         );
         const thread = await response.json();
         setThreadData(thread.data);

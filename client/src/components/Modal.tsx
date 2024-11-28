@@ -45,7 +45,10 @@ function Modal({ className }: any) {
     const response = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/v1/thread`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        'ngrok-skip-browser-warning': 'true',
+        // You can also add a custom User-Agent here
+        'User-Agent': 'MyCustomUserAgent'
       },
       body: JSON.stringify(formData)
     });
@@ -59,7 +62,15 @@ function Modal({ className }: any) {
 
   useEffect(() => {
     async function getAgents() {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/v1/agent`);
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/v1/agent`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          'ngrok-skip-browser-warning': 'true',
+          // You can also add a custom User-Agent here
+          'User-Agent': 'MyCustomUserAgent'
+        },
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
