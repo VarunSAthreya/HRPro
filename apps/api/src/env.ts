@@ -24,7 +24,7 @@ export const {
   AUTOMATION_AUTHTOKEN: z.string(),
   AUTOMATION_URL: z.string().url(),
   AUTOMATION_PROJECTID: z.string(),
-  LLAMA_MODEL: z.string().default('llama3.2'),
+  LLAMA_MODEL: z.string().default('llama3.3'),
   ZOOM_LINK: z.string(),
   OPENAI_API_KEY: z.string(),
   SERPSTACK_API_KEY: z.string(),
