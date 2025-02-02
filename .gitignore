@@ -9,3 +9,4 @@ dist-ssr
 .cache
 server/dist
 public/dist
+apps/api/src/seeding/rag.txt

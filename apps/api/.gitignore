@@ -2,6 +2,8 @@ node_modules
 build
 .env
 DevFest24
+hrpro
 metadata/
 eng.traineddata
 package-lock.json
+src/seeding/rag.txt
