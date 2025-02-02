@@ -1,5 +1,5 @@
 {
-  "name": "fine_tuner-api",
+  "name": "hrpro-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -24,7 +24,6 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "@google-cloud/vertexai": "^1.9.3",
     "@stdlib/nlp-sentencize": "^0.2.2",
     "axios": "^1.7.9",
     "canvas": "^2.11.2",

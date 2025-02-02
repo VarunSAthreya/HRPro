@@ -13,5 +13,18 @@
     "prettier": "^3.2.5",
     "turbo": "^2.4.0"
   },
-  "packageManager": "pnpm@8.15.6"
+  "packageManager": "pnpm@8.15.6",
+  "version": "1.0.0",
+  "main": ".eslintrc.js",
+  "dependencies": {
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.18",
+    "eslint-scope": "^7.2.2",
+    "eslint-visitor-keys": "^3.4.3",
+    "typescript-eslint": "^8.22.0"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "description": ""
 }
