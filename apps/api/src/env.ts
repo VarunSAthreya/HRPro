@@ -25,7 +25,7 @@ export const {
   AUTOMATION_URL: z.string().url(),
   AUTOMATION_PROJECTID: z.string(),
   LLAMA_MODEL: z.string().default('llama3.2'),
-  ZOOM_LINK: z.string().default('https://zoom.us/j/1234567890'),
+  ZOOM_LINK: z.string(),
   OPENAI_API_KEY: z.string(),
   SERPSTACK_API_KEY: z.string(),
 });
