@@ -4,6 +4,14 @@
 
 HRPro is an innovative AI-powered assistant designed to revolutionize talent acquisition and employee onboarding. By integrating web scraping, Retrieval-Augmented Generation (RAG), and dynamic prompts, HRPro streamlines the recruitment process, enhances candidate evaluation, and ensures a smooth, personalized onboarding experience for new hires.
 
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=40C9LkH4eU8">
+    <img src="https://img.youtube.com/vi/40C9LkH4eU8/0.jpg" alt="Watch the video" />
+  </a>
+</p>
+
+
 ---
 
 ## Table of Contents
