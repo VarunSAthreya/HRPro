@@ -163,7 +163,3 @@ For major changes, please open an issue first to discuss what you would like to 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
----
-
-HRPro is committed to enhancing the efficiency of talent acquisition and onboarding processes through state-of-the-art AI solutions. For any questions or feedback, please open an issue or contact the maintainers directly. Enjoy building with HRPro!
