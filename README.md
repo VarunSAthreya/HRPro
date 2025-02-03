@@ -63,7 +63,7 @@ For more details about the architecture and features of HRPro, please refer to t
 
 ## Project Structure
 
-HRPro is organized as a [Turnorepo](https://turnorepo.org/) monorepo, leveraging TypeScript across its services. The main directories are:
+HRPro is organized as a [Turborepo](https://turbo.build/repo) monorepo, leveraging TypeScript across its services. The main directories are:
 
 - **Frontend:**
   Located at `./apps/web`
